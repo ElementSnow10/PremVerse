@@ -14,7 +14,16 @@ private:
     std::string Location;
 
 public:
-    void load_hobbies(const std::string & filename);
+    static void load_hobbies(const std::string & filename){
+            Hobbies.clear();
+        std::ifstream input_file(filename);
+        std::string hobby;
+        while (std::getline(input_file, hobby)) {
+            if (!hobby.empty()){
+                Hobbies.push_back(hobby);
+            }
+        }
+    }
     void get_info() {
         std::cout << "Please enter your name: ";
         std::getline(std::cin, name);
@@ -59,18 +68,9 @@ public:
 };
 // Initialize static member
 std::vector<std::string> User::Hobbies;
-// User::load_hobbies("hobbies.txt");
-void User::load_hobbies(const std::string & filename = "hobbies.txt"){
-    Hobbies.clear();
-    std::ifstream input_file(filename);
-    std::string hobby;
-    while (std::getline(input_file, hobby)) {
-        if (!hobby.empty()){
-            Hobbies.push_back(hobby);
-        }
-    }
-}
+// as we cannot call a function in the global scope in c++ so we did it in the main function
 int main (){
+    User::load_hobbies("hobbies.txt");
     return 0;
 }
 
