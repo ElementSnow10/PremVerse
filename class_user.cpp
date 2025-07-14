@@ -1,6 +1,4 @@
-#include<iostream>
-#include<string>
-class user {
+class User {
 private :
     std::string name;
     int age;
@@ -21,7 +19,4 @@ public :
         std:: cin >> GENDER;
 
     }
-}
-int main (){
-    
 }
