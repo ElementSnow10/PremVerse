@@ -10,7 +10,7 @@ private :
     char GENDER;
     std:: string profession,Location;
     static std:: vector<std:: string> hobbies;
-    static std:: vector<std::string > matched_hobbies;
+    std:: vector<std::string > matched_hobbies;
 public :
     static void load_hobbies(const std::string &filename);
     void get_info();
