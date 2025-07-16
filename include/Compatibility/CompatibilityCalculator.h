@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream> 
-#include <strings>
+#include <string>
 #include<vector>
 
 class Compatibility {
@@ -13,7 +13,7 @@ private :
 public :
     void check_intimacy();
     void questions_for_compatibility_check();
-    Compatibility(const User & u_1 , const User &u_2) : user_1(u_1) , user_2(u_2) {} 
+    Compatibility(const User & u_1 , const User &u_2);
 
 
     static void load_questions_emotional(const std::string & filename);
