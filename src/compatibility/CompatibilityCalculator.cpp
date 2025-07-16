@@ -1,75 +1,107 @@
+#include "Compatibility.h"
+#include <fstream>
+#include <sstream>
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include<fstream>
-class Compatibility{
-private : 
-    const User & user_1;
-    const User & user_2;
-    bool INTIMACY = false;
-    int compatibility_emotional[4],compatibility_physical[2],compatibility_intellectual[4],compatibility_lifegoals[4],compatibility_lifestyle[4],compatibility_social[4],compatibility_spiritual[4];
-    int INTIMACY_score[4];
-    static std::vector<std::string> emotional_q,intellectual_q,physical_q,lifegoals_q,lifestyle_q,social_q,spiritual_q;
-public : 
-    static void load_questions(const std::string & filename1,const std::string & filename2,const std::string & filename3,const std::string & filename4,const std::string & filename5,const std::string & filename6,const std::string & filename7 ){
-        std::ifstream input_file_emotional(filename1);
-        std::ifstream input_file_social(filename2);
-        std::ifstream input_file_spiritual(filename3);
-        std::ifstream input_file_physical(filename4);
-        std::ifstream input_file_intellectual(filename5);
-        std::ifstream input_file_lifestyle(filename6);
-        std::ifstream input_file_lifegoals(filename7);
-        std::string question;
-        while (std::getline(input_file_emotional,question)) {
-            if (!question.empty()){
-                emotional_q.push_back(question);
-            }
-        }
-        while (std::getline(input_file_social,question)) {
-            if (!question.empty()){
-                social_q.push_back(question);
-            }
-        }
-        while (std::getline(input_file_spiritual,question)) {
-            if (!question.empty()){
-                spiritual_q.push_back(question);
-            }
-        }
-        while (std::getline(input_file_physical,question)) {
-            if (!question.empty()){
-                physical_q.push_back(question);
-            }
-        }
-        while (std::getline(input_file_intellectual,question)) {
-            if (!question.empty()){
-                intellectual_q.push_back(question);
-            }
-        }
-        while (std::getline(input_file_lifestyle,question)) {
-            if (!question.empty()){
-                lifestyle_q.push_back(question);
-            }
-        }
-        while (std::getline(input_file_lifegoals,question)) {
-            if (!question.empty()){
-                lifegoals_q.push_back(question);
-            }
-        }
+// Definition of static members
+std::vector<std::string> Compatibility::emotional_q;
+std::vector<std::string> Compatibility::intellectual_q;
+std::vector<std::string> Compatibility::physical_q;
+std::vector<std::string> Compatibility::lifegoals_q;
+std::vector<std::string> Compatibility::lifestyle_q;
+std::vector<std::string> Compatibility::social_q;
+std::vector<std::string> Compatibility::spiritual_q;
+
+// Constructor
+Compatibility::Compatibility(const User& u_1, const User& u_2)
+    : user_1(u_1), user_2(u_2), intimacy_(false), intimacy_score_(0)
+{}
+
+// Helper function for loading questions from a file
+static void load_questions_from_file(std::vector<std::string>& vec, const std::string& filename) {
+    vec.clear();
+    std::ifstream infile(filename);
+    std::string line;
+    while (std::getline(infile, line)) {
+        if (!line.empty())
+            vec.push_back(line);
     }
-    Compatibility(const User & u1,const User &u2) : user_1(u1) , user_2(u2) {}
-    void check_intimacy() {
-        std:: cout << "If you have been sexually active please enter 1 else enter 0" << "\n";
-        int check;
-        std:: cin >> check;
-        if(check) INTIMACY = true;
+    infile.close();
+}
+
+// Static functions to load question categories
+void Compatibility::loadQuestionsEmotional(const std::string& filename) {
+    load_questions_from_file(emotional_q, filename);
+}
+void Compatibility::loadQuestionsSocial(const std::string& filename) {
+    load_questions_from_file(social_q, filename);
+}
+void Compatibility::loadQuestionsSpiritual(const std::string& filename) {
+    load_questions_from_file(spiritual_q, filename);
+}
+void Compatibility::loadQuestionsLifestyle(const std::string& filename) {
+    load_questions_from_file(lifestyle_q, filename);
+}
+void Compatibility::loadQuestionsLifegoals(const std::string& filename) {
+    load_questions_from_file(lifegoals_q, filename);
+}
+void Compatibility::loadQuestionsPhysical(const std::string& filename) {
+    load_questions_from_file(physical_q, filename);
+}
+void Compatibility::loadQuestionsIntellectual(const std::string& filename) {
+    load_questions_from_file(intellectual_q, filename);
+}
+
+void Compatibility::checkIntimacy() {
+    std:: cout << "If you and your partner are having a romantic relation please enter 1 or enter 0" << "\n";
+    int answer;
+    std:: cin >> answer;
+    if(answer) Compatibility::INTIMACY = true;
+}
+float score_emotional = 0.0;
+float score_social = 0.0;
+float score_physical = 0.0;
+float score_intellectual = 0.0;
+float score_lifestyle = 0.0;
+float score_lifegoals = 0.0;
+float score_spiritual = 0.0;
+
+void Compatibility::questionsForCompatibilityCheck() {
+    int answer;
+    std:: cout << "Please answer in the format, 1 means strongly disagree and 5 means strongly agree" << "\n";
+    for(size_t i = 0;i < emotional_q.size();i++){
+        std:: cout << emotional_q[i] << "\n";
+        std:: cin >> answer;
+        score_emotional += answer;
     }
-    void questions_for_compatibility_check(){
-        std:: cout << "Please mention the number according to the following terminilogy" << "\n" << "1 - stringly disagree " << "\n";
-        std:: cout << "5 - strongly agree" << "\n";
+    for(size_t i = 0;i < social_q.size();i++){
+        std:: cout << social_q[i] << "\n";
+        std:: cin >> answer;
+        score_social += answer;
     }
-};  
-int main (){    
-    Compatibility::load_questions("emotional.txt" , "social.txt" , "spiritual.txt" , "physical.txt" ,"intellectual.txt" ,"lifestyle.txt" , "lifegoal.txt");
-    return 0;
+    for(size_t i = 0;i < physical_q.size();i++){
+        std:: cout << physical_q[i] << "\n";
+        std:: cin >> answer;
+        score_physical += answer;
+    }
+    for(size_t i = 0;i < intellectual_q.size();i++){
+        std:: cout << intellectual_q[i] << "\n";
+        std:: cin >> answer;
+        score_intellectual += answer;
+    }
+    for(size_t i = 0;i < spiritual_q.size();i++){
+        std:: cout << spiritual_q[i] << "\n";
+        std:: cin >> answer;
+        score_spiritual += answer;
+    }
+    for(size_t i = 0;i < lifestyle_q.size();i++){
+        std:: cout << lifestyle_q[i] << "\n";
+        std:: cin >> answer;
+        score_lifestyle += answer;
+    }
+    for(size_t i = 0;i < lifegoals_q.size();i++){
+        std:: cout << lifegoals_q[i] << "\n";
+        std:: cin >> answer;
+        score_lifegoals += answer;
+    }
+
 }
