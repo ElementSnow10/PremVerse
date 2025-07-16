@@ -1,8 +1,6 @@
 # Create compatibility library
 add_library(compatibility_lib
     CompatibilityCalculator.cpp
-    CompatibilityManager.cpp
-    CompatibilityTypes.cpp
 )
 
 # Create alias for consistent naming
