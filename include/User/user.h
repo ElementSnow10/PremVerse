@@ -5,7 +5,7 @@
 
 class User{
 private :
-    std:: string name;
+    std::string name;
     int age,birth_date,birth_month,birth_year;
     char GENDER;
     std:: string profession,Location;
