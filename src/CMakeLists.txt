@@ -1,5 +1,5 @@
 # Main executable
-add_executable(love_compatibility_planner main.cpp)
+add_executable(class_user.cpp)
 
 # Add subdirectories for each module
 add_subdirectory(compatibility)
